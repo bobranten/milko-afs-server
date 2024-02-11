@@ -1,8 +1,8 @@
 
-Milko - a free AFS server
--------------------------
+Milko - a free and open source AFS server
+-----------------------------------------
 
-Milko is a free and independent server for the Andrew File System (AFS)
+Milko is a free and open source server for the Andrew File System (AFS)
 
 
 Background
@@ -55,26 +55,28 @@ Building Milko
 To compile Milko you only need to have OpenSSL and either Heimdal or MIT
 Kerberos installed in adition to the most basic build tools.
 You build it with the commands:
-´´´´´´´´´´´
+```
 ./configure
 make
 make install
-´´´´´´´´´´´´
+```
 The default location is /usr/local but you can set the path prefix like this
 if you want to install somewhere else:
-´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´
+```
 ./configure --prefix="/home/b/bosse/milko"
-´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´
+```
 
 
 Whats installed
 ---------------
 
 The installed software is:
+```
 /usr/local/etc: config files like CellSrvDB and ThisCell.
 /usr/local/bin: bos, vos, pts and "sked".
 /usr/local/libexec: bosserver, fileserver, ptserver and vldbserver.
 /usr/man: man pages.
+```
 
 
 How to test
