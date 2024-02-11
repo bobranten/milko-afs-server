@@ -1,0 +1,35 @@
+
+srcdir=	@srcdir@
+VPATH=	@srcdir@
+
+PERL=	perl
+
+prefix=	@prefix@
+
+all: Makefile Makefile.PL build_perl
+
+install:
+	@$(MAKE) -f Makefile.perl install
+
+build_perl: Makefile.perl AAFS.xs
+	@$(MAKE) -f Makefile.perl
+	@touch build_perl
+
+run_test:
+	$(PERL) -I$(srcdir) -I./blib/arch/auto/AAFS $(srcdir)/t/test.pl
+
+check_home:
+	$(PERL) -I./blib/arch/auto/AAFS $(srcdir)/su/check-home.pl
+
+Makefile.perl: Makefile.PL
+	$(PERL) Makefile.PL PREFIX=$(prefix)
+
+Makefile:	Makefile.in ../../config.status
+	cd ../..; CONFIG_FILES=appl/aafs-perl/Makefile CONFIG_HEADERS= $(SHELL) config.status
+
+Makefile.PL: Makefile.PL.in
+	cd ../..; CONFIG_FILES=appl/aafs-perl/Makefile.PL CONFIG_HEADERS= $(SHELL) config.status
+
+clean:
+	rm -f *.o *.bs AAFS.c *.core build_perl Makefile.PL
+	rm -rf pm_to_blib

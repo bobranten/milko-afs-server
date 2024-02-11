@@ -1,0 +1,10 @@
+*~
+*.bak
+*.o
+*.a
+*.lo
+*.la
+.libs/
+config.status
+config.log
+Makefile

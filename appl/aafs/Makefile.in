@@ -1,0 +1,157 @@
+#
+# $Id: Makefile.in,v 1.3 2003/10/31 23:36:02 lha Exp $
+#
+
+SHELL	= /bin/sh
+
+srcdir	= @srcdir@
+top_builddir	= ../..
+VPATH	= @srcdir@
+
+CC	= @CC@
+AR	= ar
+RANLIB	= @RANLIB@
+EXEEXT	= @EXEEXT@
+INCLUDES = -I.					\
+	   -I$(srcdir)				\
+	   -I$(srcdir)/..			\
+	   -I../../include			\
+	   -I$(srcdir)/../../include		\
+	   -I../.. -I$(srcdir)/../..		\
+	   -I../../rxdef			\
+	   @INC_roken@ \
+	   @KRB5_INC_FLAGS@
+
+CFLAGS	= @CFLAGS@
+LDFLAGS	= @LDFLAGS@
+
+INSTALL = @INSTALL@
+INSTALL_DATA	= @INSTALL_DATA@
+MKINSTALLDIRS = @top_srcdir@/mkinstalldirs
+KRB5_LIB_FLAGS	= @KRB5_LIB_FLAGS@
+
+LIBS		= ../../util/libarlautil.la  \
+		  @LIB_roken@ \
+		  $(KRB5_LIB_FLAGS) @LIBS@
+
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+includedir	= @includedir@
+libdir		= @libdir@
+sysconfdir	= @sysconfdir@
+ARLACACHEDIR	= @ARLACACHEDIR@
+ARLACONFFILE	= @ARLACONFFILE@
+
+target_os	= @target_os@
+target_vendor	= @target_vendor@
+target_cpu	= @target_cpu@
+
+#PICFLAGS = @PICFLAGS@
+
+LIBNAME = $(LIBPREFIX)aafs
+#LIBEXT = @LIBEXT@
+LIBEXT = a
+#SHLIBEXT = @SHLIBEXT@
+#LIBPREFIX = @LIBPREFIX@
+LIBPREFIX = lib
+#LDSHARED = @LDSHARED@
+LIB = $(LIBNAME).$(LIBEXT)
+PROGS = test_aafs
+
+DEFS = @DEFS@ -DSYSCONFDIR=\"$(sysconfdir)\" \
+	 -DARLACACHEDIR=\"$(ARLACACHEDIR)\" \
+	 -DARLACONFFILE=\"$(ARLACONFFILE)\" \
+	$(GENSYSNAMEDEFS)
+
+LIB_SOURCES = \
+	cell.c \
+	conn.c \
+	volume.c \
+	vldb.c \
+	security.c \
+	partition.c
+
+SOURCES = $(LIB_SOURCES) $(gensysname_SRCS) $(kotest_SRCS)
+
+LIB_OBJECTS = \
+	cell.o \
+	conn.o \
+	volume.o \
+	vldb.o \
+	security.o \
+	partition.o
+
+HEADERS = cellconfig.h auth.h
+
+test_aafs_SRCS = test_aafs.c
+
+test_aafs_OBJS = test_aafs.o
+
+OBJECTS = $(LIB_OBJECTS) 
+
+all: $(LIB) $(PROGS)
+
+Wall:
+	make CFLAGS="-g -Wall -Wno-comment -Wmissing-prototypes -Wmissing-declarations -D__USE_FIXED_PROTOTYPES__"
+
+sysname.c: gensysname$(EXEEXT)
+	./gensysname$(EXEEXT) -c > $@.new && mv $@.new $@
+
+.c.o:
+	$(CC) -c $(CPPFLAGS) $(DEFS) $(INCLUDES) $(CFLAGS) $(PICFLAGS) $<
+
+install: all
+	$(MKINSTALLDIRS) $(DESTDIR)$(libdir) $(DESTDIR)$(includedir)
+	$(INSTALL_DATA) $(LIB) $(DESTDIR)$(libdir)/$(LIB)
+	for i in $(HEADERS); do \
+	  $(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)$(includedir)/$$i; \
+	done
+
+uninstall:
+	rm -f $(DESTDIR)$(libdir)/$(LIB)
+	for i in $(HEADERS); do \
+	  rm -f $(DESTDIR)$(includedir)/$$i; \
+	done
+
+TAGS: $(SOURCES)
+	etags $(SOURCES)
+
+
+gensysname: $(gensysname_OBJS)
+	$(top_builddir)/libtool $(CC) $(LDFLAGS) -o $@ $(gensysname_OBJS) $(LIBS)
+
+kotest: $(kotest_OBJS) $(LIBNAME).a
+	$(top_builddir)/libtool $(CC) $(LDFLAGS) -o $@ $(kotest_OBJS) -L. -lko $(LIBS)
+
+test_aafs: $(test_aafs_OBJS) $(LIBNAME).a
+	$(top_builddir)/libtool $(CC) $(LDFLAGS) -o $@ $(test_aafs_OBJS) -L. -laafs -L../../lib/ko -lko -L../../rxdef -lrxdefclient -L../../rx -lrx -L../../lwp -llwp $(LIBS)
+
+check:
+
+clean:
+	rm -f $(LIB) $(PROGS) *.o *.a *.core core
+
+mostlyclean: clean
+
+distclean: clean
+	rm -f Makefile *~
+
+realclean: distclean
+	rm -f TAGS
+
+$(LIBNAME).a: $(LIB_OBJECTS)
+	rm -f $@
+	$(AR) cr $@ $(LIB_OBJECTS)
+	-$(RANLIB) $@
+
+#$(LIBNAME).$(SHLIBEXT): $(LIB_OBJECTS)
+#	rm -f $@
+#	$(LDSHARED) -o $@ $(LIB_OBJECTS)
+
+$(OBJECTS): ../../include/config.h
+
+Makefile:	Makefile.in ../../config.status
+	cd ../..; CONFIG_FILES=appl/aafs/Makefile CONFIG_HEADERS= $(SHELL) config.status
+
+
+.PHONY: all install uninstall check clean mostlyclean distclean realclean

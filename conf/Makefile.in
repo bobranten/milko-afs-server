@@ -1,0 +1,81 @@
+# conf/Makefile.in
+
+srcdir		= @srcdir@
+top_builddir	= ..
+VPATH		= @srcdir@
+
+SHELL		= /bin/sh
+INSTALL		= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA	= @INSTALL_DATA@
+MKINSTALLDIRS 	= @top_srcdir@/mkinstalldirs
+CHMOD		= @chmod@
+
+prefix 		= @prefix@
+sysconfdir	= @sysconfdir@
+
+CONF_FILES	= CellServDB DynRootDB SuidCells ThisCell
+MANPAGES	= \
+		AliasDB.5 \
+		CellServDB.5 \
+		DynRootDB.5 \
+		SuidCells.5 \
+		ThisCell.5
+
+all:
+
+install:	all
+		$(MKINSTALLDIRS) $(DESTDIR)$(sysconfdir)
+		@CONF_FILES='$(CONF_FILES)'; \
+		for x in $$CONF_FILES; do \
+		  if test -f $(srcdir)/$$x ; then \
+		    y=$(srcdir)/$$x ; \
+		  else \
+		    y=$$x ; \
+		  fi ; \
+		  echo $(INSTALL_DATA) $$y $(DESTDIR)$(sysconfdir)/$$x.default; \
+		  $(INSTALL_DATA) $$y $(DESTDIR)$(sysconfdir)/$$x.default; \
+		  if test -f $(DESTDIR)$(sysconfdir)/$$x; then \
+		    echo "$@ will not overwrite $(DESTDIR)$(sysconfdir)/$$x"; \
+		  else \
+		    echo $(INSTALL_DATA) $$y $(DESTDIR)$(sysconfdir)/$$x; \
+		    $(INSTALL_DATA) $$y $(DESTDIR)$(sysconfdir)/$$x; \
+		  fi; \
+		done
+		$(MKINSTALLDIRS) $(DESTDIR)$(prefix)/share/man/$(mandir) ; \
+		MANPAGES='$(MANPAGES)'; for x in $$MANPAGES; do \
+			n=`echo $$x | sed 's/\(.*\)\.[1-9a-zA-Z]*$$/\1/'`; \
+			e=`echo $$x | sed 's/.*\.\([1-9a-zA-Z]*\)$$/\1/'`; \
+			f=`echo $$n | sed '$(transform)'`; \
+			$(MKINSTALLDIRS) $(DESTDIR)$(prefix)/share/man/$(mandir)/man$$e ; \
+			$(INSTALL_DATA) $(srcdir)/$$x \
+				$(DESTDIR)$(prefix)/share/man/$(mandir)/man$$e/$$f.$$e; \
+		done
+
+uninstall:
+		CONF_FILES='$(CONF_FILES)'; \
+		for x in $$CONF_FILES; do \
+		  rm -f $(DESTDIR)$(sysconfdir)/$$x.default; \
+		  rm -f $(DESTDIR)$(sysconfdir)/$$x; \
+		done
+		MANPAGES='$(MANPAGES)'; for x in $$MANPAGES; do \
+			n=`echo $$x | sed 's/\(.*\)\.[1-9a-zA-Z]*$$/\1/'`; \
+			e=`echo $$x | sed 's/.*\.\([1-9a-zA-Z]*\)$$/\1/'`; \
+			f=`echo $$n | sed '$(transform)'`; \
+			rm -rf $(DESTDIR)$(prefix)/share/man/$(mandir)/$$f.$$e; \
+		done
+
+clean:
+		#rm -f
+
+mostlyclean:	clean
+
+distclean:	clean
+		rm -f Makefile
+
+realclean:	distclean
+
+Makefile:	Makefile.in ../config.status
+		cd .. ; CONFIG_FILES=conf/Makefile CONFIG_HEADERS= $(SHELL) ./config.status
+
+.PHONY: all install uninstall clean mostlyclean distclean realclean

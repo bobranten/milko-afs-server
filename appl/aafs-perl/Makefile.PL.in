@@ -1,0 +1,22 @@
+use ExtUtils::MakeMaker;
+
+$srcdir = "@srcdir@";
+$tb = "../..";
+
+$LIB_roken = "-lroken -lcrypt";
+$LIB_krb = "-lkrb -ldes";
+
+
+%xsfiles = { "$srcdir/AAFS.xs" => AAFS.c };
+
+
+WriteMakefile(
+	'NAME'		=> 'AAFS',
+	'FIRST_MAKEFILE'=> 'Makefile.perl',
+	'MAKEFILE'	=> 'Makefile.perl',
+	'VERSION_FROM'	=> "$srcdir/AAFS.pm",
+	'XS'		=> "AAFS", 
+	'LIBS'		=> ["-L$tb/appl/aafs -laafs -L../../rxdef -lrxdefclient -L$tb/lib/ko -lko -L$tb/rx -lrx -lrx -L$tb/lwp -llwp -L$tb -L$tb/util -larlautil $LIB_krb $LIB_roken -lcom_err"],
+	'DEFINE'	=> "",
+	'INC'		=> "-I$srcdir/../../include -I$tb/include -I$srcdir/.. -I../../rxdef -I$tb/include -I$srcdir/../.. -I/usr/include/krb5 -I/usr/include/kerberosIV",
+);

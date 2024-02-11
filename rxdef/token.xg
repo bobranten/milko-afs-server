@@ -1,0 +1,45 @@
+/* This is -*-c-*- */
+/* $Id: token.xg,v 1.3 2007/05/16 20:10:55 lha Exp $ */
+/*
+ * This file is in public domain
+ *
+ * Interface to token in kernel
+ */
+
+package TOKEN_
+
+const TOKEN_GK_KEY_MAX = 64;
+const TOKEN_GK_TOKEN_MAX = 1500;
+
+struct token_rxgk {
+    int32_t  gk_flags;
+    int32_t  gk_viceid;
+    uint64_t gk_begintime;
+    uint64_t gk_endtime;
+    int32_t  gk_level;
+    int32_t  gk_lifetime;
+    int32_t  gk_bytelife;
+    int32_t  gk_enctype;
+    opaque   gk_key<TOKEN_GK_KEY_MAX>;
+    opaque   gk_token<TOKEN_GK_TOKEN_MAX>;
+};
+
+
+const TOKEN_UNION_GK = 4;
+
+union token_afs switch ( int at_type ) {
+	case TOKEN_UNION_GK : token_rxgk at_gk; 
+};
+
+const TOKEN_MAX = 8;
+const TOKEN_CELL_MAX = 64;
+const TOKEN_LENGTH_MAX = 16384;
+
+typedef opaque token_opaque<TOKEN_LENGTH_MAX>;
+
+struct pioctl_set_token {
+        int flags;
+	string cell<TOKEN_CELL_MAX>;
+	token_opaque tokens<TOKEN_MAX>;
+};
+

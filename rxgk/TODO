@@ -1,0 +1,55 @@
+Upgrade path flow:
+
+	1. Client fetchs rxgk ticket from kerberos, by existance of
+	   the keberos principal, the cell declare it's running the
+	   rxgk-service. 
+
+	2. Client fetches initial rxgk token from rxgk-service by
+	   using GSS-API.  In initial token the cell declares if the
+	   vldb and ptserver supports rxgk too.
+
+	3. When the clients want to talk a fileserver, it talks to the
+	   rxgk-service to fetch an new rxgk token (and new key to
+	   match that token) from that fileserver, or gets back empty
+	   token which means it should fall back to rxkad.
+	 
+	 4. Talkes to fileserver.
+
+code cleanup and verification
+
+	1 week + misc
+	- check and verify wire formats (1day)
+	- check k0 to connection key (1h)
+	- store for fileserver key (2h)
+	  list and update service
+	- rewrite encryption to use custom kcrypto for speed and
+          portability (1 day)
+	+ write support for rxgk token on each fileserver, 2days
+
+aklog/afslog/libkafs
+
+	done
+
+RXGK service (have sample service)
+
+	done
+
+OpenAFS file server, rxgk service integration
+
+	3 days
+	first code-drop, 4h, , done
+	rxgk server integeration, 3h
+	verify fileserver, 4h
+
+integration into OpenAFS client
+
+	?/1 week
+
+arla done
+
+      done (took 2 days)
+
+cp /obj/a/rxgk/rxgk_proto.{h,ydr.c,ss.c,cs.c,ss.h,cs.h}  ~/src/cvs/arla/rxgk/*.[ch] ~/src/cvs/arla/rxgk/*.xg ~/src/cvs/arla/rxgk/*.et ~/src/cvs/arla/rxgk/README ~/src/cvs/arla/rxgk/TODO ~/src/cvs/arla/rxgk/rxgk_err.et . && perl -pi -e 's/#include <atypes.h>/#include <unistd.h>\n#include <stdint.h>/' rxgk_proto*.[ch]
+
+
+KRB5_KTNAME=FILE:/usr/afs/keyfile.keytab /obj/a/rxgk/rxgk-service  &

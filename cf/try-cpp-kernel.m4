@@ -1,0 +1,10 @@
+dnl
+dnl $Id: try-cpp-kernel.m4,v 1.2 2004/02/12 16:28:18 lha Exp $
+dnl
+
+AC_DEFUN([AC_TRY_CPP_KERNEL],[
+save_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS $KERNEL_CPPFLAGS"
+AC_PREPROC_IFELSE([AC_LANG_SOURCE([[$1]])],[$2],[$3])
+CPPFLAGS="$save_CPPFLAGS"
+])

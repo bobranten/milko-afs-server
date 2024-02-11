@@ -1,0 +1,12 @@
+dnl
+dnl $Id: have-types.m4,v 1.4 2004/02/12 16:28:17 lha Exp $
+dnl
+
+AC_DEFUN([AC_HAVE_TYPES], [
+for i in $1; do
+        AC_HAVE_TYPE($i)
+done
+if false;then
+	AC_CHECK_FUNCS($1)
+fi
+])

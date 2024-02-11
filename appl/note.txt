@@ -1,0 +1,3 @@
+Note that applications running serverside like bos, vos and pts must
+be linked to the arlalib in ../lib/arla while applications running
+clientside like fs should be linked to the arlalib in appl/arlalib.
