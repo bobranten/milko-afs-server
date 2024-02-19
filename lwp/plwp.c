@@ -42,8 +42,6 @@
 #include <lwp.h>
 #include "preempt.h"
 
-RCSID("$Id: plwp.c,v 1.29 2006/12/29 11:22:59 tol Exp $");
-
 #ifdef	AFS_AIX32_ENV
 #include <ulimit.h>
 #include <sys/errno.h>
@@ -632,10 +630,8 @@ LWP_CreateProcess(void (*ep)(), int stacksize, int priority,
 #if defined(PTHREADS_LWP)
 #if defined(HAVE_THR_YIELD)
 	thr_yield();
-#elif defined(HAVE_SCHED_YIELD)
-	sched_yield();
 #else
-	pthread_yield();
+	sched_yield();
 #endif
 #elif defined(WINDOWS_THREADS_LWP)
 	Sleep(0); /* XXX */

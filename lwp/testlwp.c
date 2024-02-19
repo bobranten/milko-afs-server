@@ -37,9 +37,6 @@
  * Checks if lwp seems to work, and demostrates how to use lwp.  Give
  * multiple commands on the command line to run several tests at the
  * same time.
- * 
- * $Id: testlwp.c,v 1.9 2002/06/01 17:47:49 lha Exp $
- *
  */
 
 #include <stdio.h>
@@ -143,11 +140,11 @@ static void
 SelectProducer(void *foo)
 {
     char *str = (char *) foo;
-    /*int len ;*/
+    int len __attribute__((unused));
     
     if (str == NULL)
 	str = "foo";
-    /*len = strlen (str) ;*/
+    len = strlen (str) ;
 
     while(1) {
 	IOMGR_Sleep(1) ;
@@ -293,7 +290,7 @@ int stack_i, stack_printed = 0;
 static void
 overrun_stack (void *arg)
 {
-    /*char foo[10];*/
+    char foo[10] __attribute__((unused));
     int stack_i, stack_printed = 0;
 
     for (stack_i = 10; stack_i > -LWPTEST_STACKSIZE * 2; stack_i--) {
@@ -301,25 +298,23 @@ overrun_stack (void *arg)
 	    printf("hum overrun stack now\n");
 	    stack_printed = 1;
 	}
-	/*foo[stack_i] = 0x4e;*/
+	foo[stack_i] = 0x4e;
     }
 }
-
 
 static void
 underrun_stack (void *arg)
 {
-    /*char foo[10];*/
+    char foo[10] __attribute__((unused));
 
     for (stack_i = 0; stack_i < LWPTEST_STACKSIZE * 2; stack_i++) {
 	if (stack_i > LWPTEST_STACKSIZE + 100&& !stack_printed) {
 	    printf("hum underrun stack now\n");
 	    stack_printed = 1;
 	}
-	/*foo[stack_i] = 0xe4;*/
+	foo[stack_i] = 0xe4;
     }
 }
-
 
 /*
  * Usage
@@ -408,5 +403,3 @@ int main(int argc, char **argv)
     LWP_WaitProcess((char *) main);
     return 0;
 }
-
-
