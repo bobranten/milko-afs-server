@@ -7,4 +7,10 @@
 .libs/
 config.status
 config.log
+libtool
 Makefile
+include/config.h
+include/stamp-h1
+include/vers.h
+include/version.h
+include/version.h.in

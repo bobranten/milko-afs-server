@@ -75,7 +75,7 @@ Whats installed
 
 The installed software is:
 ```
-/usr/local/etc: config files like CellSrvDB and ThisCell.
+/usr/local/etc: config files like CellServDB and ThisCell.
 /usr/local/bin: bos, vos, pts and "sked".
 /usr/local/libexec: bosserver, fileserver, ptserver and vldbserver.
 /usr/local/man: man pages.
