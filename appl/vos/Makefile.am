@@ -3,6 +3,7 @@
 include $(top_srcdir)/Makefile.am.common
 
 AM_CPPFLAGS += \
+	$(KRB5_INC_FLAGS) \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/lib/arla \
 	-I../../rxdef \

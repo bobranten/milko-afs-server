@@ -14,6 +14,7 @@ bosserver_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/rxdef \
 	-I$(top_srcdir)/ \
+	$(KRB5_INC_FLAGS) \
 	-DMILKO_LIBEXECDIR=\"$(libexecdir)\" \
 	-DMILKO_SYSCONFDIR=\"$(sysconfdir)\"
 

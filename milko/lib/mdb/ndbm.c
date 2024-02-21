@@ -34,7 +34,7 @@
 #include "mdb_locl.h"
 
 RCSID("$Id: ndbm.c,v 1.6 2003/02/15 23:51:53 lha Exp $");
-
+#define NDBM 1
 #if defined(NDBM) || defined(HAVE_NEW_DB)
 
 #if defined(HAVE_GDBM_NDBM_H)

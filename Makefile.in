@@ -148,7 +148,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = conf/Makefile include/Makefile lwp/Makefile \
+CONFIG_CLEAN_FILES = conf/Makefile include/Makefile \
 	milko/appl/bootstrap/Makefile
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
@@ -213,10 +213,9 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/conf/Makefile.in \
 	$(top_srcdir)/include/Makefile.in \
 	$(top_srcdir)/include/config.h.in \
-	$(top_srcdir)/lwp/Makefile.in \
 	$(top_srcdir)/milko/appl/bootstrap/Makefile.in COPYING \
-	README.md compile config.guess config.sub install-sh ltmain.sh \
-	missing mkinstalldirs ylwrap
+	README.md THANKS compile config.guess config.sub install-sh \
+	ltmain.sh missing mkinstalldirs ylwrap
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -618,8 +617,6 @@ distclean-hdr:
 conf/Makefile: $(top_builddir)/config.status $(top_srcdir)/conf/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 include/Makefile: $(top_builddir)/config.status $(top_srcdir)/include/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-lwp/Makefile: $(top_builddir)/config.status $(top_srcdir)/lwp/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 milko/appl/bootstrap/Makefile: $(top_builddir)/config.status $(top_srcdir)/milko/appl/bootstrap/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@

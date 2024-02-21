@@ -12,6 +12,7 @@ AM_CPPFLAGS += -I. 			\
 	-I$(srcdir)/../include		\
 	-I.. -I$(srcdir)/..		\
 	$(INC_roken) 			\
+	$(KRB5_INC_FLAGS)		\
 	-Wno-shift-overflow		\
 	-Wno-deprecated-declarations
 

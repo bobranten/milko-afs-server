@@ -11,10 +11,12 @@ AM_CPPFLAGS += \
 	-I$(srcdir)/../../include		\
 	-I../.. -I$(srcdir)/../..		\
 	-I../../rxdef				\
+	$(KRB5_INC_FLAGS)			\
 	$(INC_roken)
 
 libarlalib_la_SOURCES = arlalib.c ka-procs.c
-libarlalib_la_CPPFLAGS = -I../.. -I../../rxdef -DSYSCONFDIR=\"$(sysconfdir)\"
+libarlalib_la_CPPFLAGS = -I../.. -I../../rxdef \
+	$(KRB5_INC_FLAGS) -DSYSCONFDIR=\"$(sysconfdir)\"
 
 libarlalib_la_LIBADD = \
 	../../rxdef/librxdefclient.la \

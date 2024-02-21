@@ -38,7 +38,7 @@ RCSID("$Id: arlalib.c,v 1.67 2007/07/17 14:30:19 map Exp $");
 #ifndef KRB5_STORAGE_PRINCIPAL_WRONG_NUM_COMPONENTS
 #undef HAVE_KRB5 /* no heimdal, no kerberos support */
 #endif
-
+#undef HAVE_KRB5 /* krb5_425_conv_principal() is removed from heimdal */
 #ifdef HAVE_KRB5
 
 /* v4 glue */

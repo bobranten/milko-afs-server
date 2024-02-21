@@ -12,4 +12,5 @@ AM_CPPFLAGS += \
 	-I$(top_srcdir)/rxdef \
 	-I$(top_srcdir)/rxkad \
 	-I$(top_srcdir)/ \
+	$(KRB5_INC_FLAGS) \
 	-DMILKO_SYSCONFDIR=\"$(sysconfdir)\"

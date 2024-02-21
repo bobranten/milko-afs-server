@@ -21,6 +21,7 @@ bos_SOURCES = \
 
 bos_CPPFLAGS = \
 	$(KAFS_CPPFLAGS) \
+	$(KRB5_INC_FLAGS) \
 	-I$(srcdir)/../.. \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/lib/arla \
