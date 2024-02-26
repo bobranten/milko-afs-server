@@ -18,7 +18,7 @@ the late 1990s the Arla project started at the Royal Insitute of Technology
 in Stockholm, Sweden (by the same guys that created the independent Kerberos
 implementation Heimdal) The goal of the Arla project was to create a free
 and independent AFS client and server that was portable. Back in those days
-it was aslo considered important to have implementations of Kerberos and
+it was also considered important to have implementations of Kerberos and
 AFS outside of US because of export restrictions on cryptography.
 
 The Arla project was for a while rather successful and developed an AFS
@@ -26,7 +26,7 @@ client that was stable and portable and also the beginning of an AFS
 server that had basic features. However after 2007 the project went dead.
 There are probably a number of reasons for this, among them that the
 involved persons got jobs! Another reason is that a filesystem client
-contains a kernelmode part and it takes very hard work to maintain and
+contains a kernel mode part and it takes very hard work to maintain and
 keep it updated, even on Linux it is difficult for out of tree kernel
 drivers to keep up with the changes to the mainline source tree. Because
 of this the Arla project has been unmaintained for a number of years and
